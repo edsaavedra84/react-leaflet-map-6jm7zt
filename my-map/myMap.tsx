@@ -1,5 +1,13 @@
 import React, { useEffect, useRef } from 'react';
-import { map, tileLayer, Browser, Bounds, Layer, Marker, GeoJSON } from 'leaflet';
+import {
+  map,
+  tileLayer,
+  Browser,
+  Bounds,
+  Layer,
+  Marker,
+  GeoJSON,
+} from 'leaflet';
 
 import './myMap.css';
 import data from './states.json';
@@ -37,42 +45,49 @@ const MyMap = ({
 
     const json: any = data;
 
-    const geoRI = json.features.filter(el => el.properties.name === "Rhode Island")[0];
-    const geoVE = json.features.filter(el => el.properties.name === "Vermont")[0];
-    const geoME = json.features.filter(el => el.properties.name === "Maine")[0];
+    const geoRI = json.features.filter(
+      (el) => el.properties.name === 'Rhode Island'
+    )[0];
+    const geoVE = json.features.filter(
+      (el) => el.properties.name === 'Vermont'
+    )[0];
+    const geoME = json.features.filter(
+      (el) => el.properties.name === 'Maine'
+    )[0];
 
-
-    new Marker([42.7544, -71.4477]).bindPopup('This is Littleton, CO.').addTo(leafletMap);
+    new Marker([42.7544, -71.4477])
+      .bindPopup('This is Littleton, CO.')
+      .addTo(leafletMap);
 
     new GeoJSON(geoRI, {
       onEachFeature: onEachFeature,
-      style : {
-        fillColor: "red",
+      style: {
+        fillColor: 'red',
         weight: 1,
         opacity: 0.4,
         color: 'red',
-        fillOpacity: 0.2
-      }
+        fillOpacity: 0.2,
+      },
     }).addTo(leafletMap);
     new GeoJSON(geoVE, {
       onEachFeature: onEachFeature,
-      style : {
-        fillColor: "blue",
+      style: {
+        fillColor: 'blue',
         weight: 1,
         opacity: 0.4,
         color: 'blue',
-        fillOpacity: 0.2
-      }
+        fillOpacity: 0.2,
+      },
     }).addTo(leafletMap);
     new GeoJSON(geoME, {
       onEachFeature: onEachFeature,
-      style : {
-        fillColor: "green",
+      style: {
+        fillColor: 'green',
         weight: 1,
         opacity: 0.4,
         color: 'green',
-        fillOpacity: 0.2
-      }
+        fillOpacity: 0.2,
+      },
     }).addTo(leafletMap);
 
     mapIsReadyCallback(leafletMap);
@@ -82,9 +97,13 @@ const MyMap = ({
 };
 
 function onEachFeature(feature, layer) {
+  layer.bindPopup('hello, I am ' + feature.properties.name);
   layer.on({
-    click
+    click: () => {
+      console.log('hello, I am ' + feature.properties.name);
+      console.log(feature);
+      layer.openPopup();
+    },
   });
 }
-
 export default MyMap;
